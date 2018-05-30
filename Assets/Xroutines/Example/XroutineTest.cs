@@ -22,8 +22,10 @@ public class XroutineTest : MonoBehaviour {
 			.WaitFor(() => { Debug.Log("Execute code on the fly!"); })
 			.WaitFor(() => { Debug.Log("Press Enter to continue..."); })
             .WaitForKeyDown(KeyCode.Return)
-			.WaitFor(() => { Debug.Log("Thanks!"); })
-			.WaitFor(() => { Debug.Log("Left click to continue..."); })
+            .WaitFor(() => { Debug.Log("Thanks!"); })
+            //Waiting for 5 frames
+            .WaitForFrames(5)
+            .WaitFor(() => { Debug.Log("Left click to continue..."); })
             .WaitForMouseDown(0)
 			.WaitFor(() => { Debug.Log("Thanks again!"); })
 			.WaitFor(() => { 
@@ -34,8 +36,8 @@ public class XroutineTest : MonoBehaviour {
 			.WaitFor(() => { Debug.Log(string.Format("Xroutine is still Running: {0}", routine.IsRunning)); })
 			.WaitFor(() => { Debug.Log("We are going to stop now."); })
             //I will stop it here
-            //I can call Stop() from anywhere else for immediate interruption.
-			.WaitFor(() => { routine.Stop(); })
+            //I can call Abort() from anywhere else for immediate interruption.
+			.WaitFor(() => { routine.Abort(); })
 			.WaitFor(() => { Debug.Log("This will not be executed"); });
 
         //We can even start another routine, and wait for the previous one to finish.
@@ -44,7 +46,7 @@ public class XroutineTest : MonoBehaviour {
 			.WaitFor(() => { Debug.Log("Routine just finished executing."); })
 			.WaitFor(() => { Debug.Log(string.Format("Xroutine is still Running: {0}", routine.IsRunning)); });
 
-        //Note: if you call WaitForXRoutine on itself, it will running a task of checking if that task is done. Which will never be.
+        //Note: if you call WaitForXRoutine on itself, it will be running a task of checking if that task is done. Which will never be.
         //In other words, calling WaitForXRoutine on itself blocks the routine, until Stop() is called somewhere else.
     }
 
